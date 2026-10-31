@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: brightloop-db
+    environment:
+      POSTGRES_USER: brightloop
+      POSTGRES_PASSWORD: brightloop
+      POSTGRES_DB: brightloop
+    ports:
+      - "5433:5432"
+    volumes:
+      - brightloop-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U brightloop -d brightloop"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  brightloop-pgdata:
